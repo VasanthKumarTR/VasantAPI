@@ -23,19 +23,24 @@ $log.SaveChanges()
 
 Write-Host "Adding Enable Deep Security Agent Task"
 $trigger = New-ScheduledTaskTrigger -AtStartup
+Write-Host "1"
 $trigger.Delay = 'PT1M'
+Write-Host "2"
 $batchcommands = @'
 cmd /c "C:\Program Files\Trend Micro\Deep Security Agent\dsa_control.cmd" -r
 cmd /c "C:\Program Files\Trend Micro\Deep Security Agent\dsa_control.cmd" -a dsm://TrendDSM-DS-DSMELB-6BXKCUVFMX54-1124567102.us-east-1.elb.amazonaws.com:4120/
 '@
+Write-Host "3"
 Set-Content -Path $registeragent -Value $batchcommands -Encoding ASCII
-
+Write-Host "4"
 $action = New-ScheduledTaskAction -Execute $registeragent
+Write-Host "5"
 $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType S4U -RunLevel Highest
+Write-Host "6"
 $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
-
+Write-Host "7"
 Register-ScheduledTask -TaskName "Enable Deep Security Agent" -InputObject $task
-
+Write-Host "8"
 #If you have a script that will cause a reboot, then install applications and run scripts, you can schedule the reboot using a Windows Scheduled Task, or use tools such as DSC, Chef, or Puppet extensions.
 $Params = @{
     Action = (New-ScheduledTaskAction -Execute "powershell" -Argument "-NoProfile Restart-Computer -force")
@@ -44,4 +49,6 @@ $Params = @{
     TaskName = 'Trend Restart'
     Description = 'Restart to complete Trend configuration'
   }
+  Write-Host "9"
   Register-ScheduledTask @Params
+  Write-Host "10"
