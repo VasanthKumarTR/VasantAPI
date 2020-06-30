@@ -1,3 +1,6 @@
+mkdir c:\buildArtifacts
+echo Azure-Image-Builder-Was-Here  > c:\buildArtifacts\azureImageBuilder.txt
+
 $url= "https://files.trendmicro.com/products/deepsecurity/en/10.0/Agent-Windows-10.0.0-2797.x86_64.zip"
 $zipfile= "C:\Windows\temp\deep_security_agent.zip"
 $outpath= "C:\Windows\temp\deep_security_agent"
